@@ -27,6 +27,12 @@ async function run() {
     await client.connect();
 
     const toyCollection = client.db("toyDB").collection("toy");
+
+    app.get("/addtoys", async (req, res) => {
+      const cursor = toyCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
     app.post("/addtoys", async (req, res) => {
       const newToys = req.body;
       console.log(newToys);
