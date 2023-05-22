@@ -39,7 +39,7 @@ async function run() {
       res.send(result);
     });
     //
-
+    //
     app.get("/addtoys/:category", async (req, res) => {
       const category = req.params.category;
       const result = await toyCollection.find({ category: category }).toArray();
