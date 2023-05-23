@@ -66,13 +66,23 @@ async function run() {
       const result = await toyCollection.deleteOne(query);
       res.send(result);
     });
-
-    // update
+    // Search
+    app.get("/searchByName/:text", async (req, res) => {
+      const searchText = req.params.text;
+      const result = await toyCollection
+        .find({
+          $or: [{ toy: { $regex: searchText, $options: "i" } }],
+        })
+        .toArray();
+      res.send(result);
+    });
+    // Put
     app.put("/updatedtoys/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const options = { upsert: true };
       const updatedToys = req.body;
+      //
 
       const toys = {
         $set: {
