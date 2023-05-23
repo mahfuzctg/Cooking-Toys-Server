@@ -24,7 +24,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    client.connect();
+    // client.connect();
 
     const toyCollection = client.db("toyDB").collection("toy");
 
@@ -38,9 +38,15 @@ async function run() {
       const result = await toyCollection.find(query).toArray();
       res.send(result);
     });
-    //
-    app.get("/addtoys", async (req, res) => {
-      const cursor = toyCollection.find();
+    // Create single data
+    app.get("/details/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await toyCollection.findOne(query);
+      res.send(result);
+    });
+    app.get("/details", async (req, res) => {
+      const cursor = toyCollection.find().limit(20);
       const result = await cursor.toArray();
       res.send(result);
     });
