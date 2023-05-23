@@ -38,6 +38,13 @@ async function run() {
       const result = await toyCollection.find(query).toArray();
       res.send(result);
     });
+    //
+
+    app.get("/addtoys/:category", async (req, res) => {
+      const category = req.params.category;
+      const result = await toyCollection.find({ category: category }).toArray();
+      res.send(result);
+    });
     // Create single data
     app.get("/details/:id", async (req, res) => {
       const id = req.params.id;
