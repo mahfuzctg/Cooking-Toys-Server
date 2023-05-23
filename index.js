@@ -45,12 +45,21 @@ async function run() {
       const result = await toyCollection.findOne(query);
       res.send(result);
     });
+    // details
     app.get("/details", async (req, res) => {
       const cursor = toyCollection.find().limit(20);
       const result = await cursor.toArray();
       res.send(result);
     });
 
+    // delete
+    app.delete("/addtoys/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await toyCollection.deleteOne(query);
+      res.send(result);
+    });
+    // Post
     app.post("/addtoys", async (req, res) => {
       const newToys = req.body;
       console.log(newToys);
